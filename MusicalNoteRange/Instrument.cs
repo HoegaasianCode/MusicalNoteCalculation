@@ -1,16 +1,16 @@
-﻿namespace MusicalNoteRange
+namespace MusicalNoteRange
 {
     public class Instrument
     {
         public readonly string _name;
-        public readonly short[] _octalRange;
+        public readonly int[] _octalRange;
         public readonly char[] _noteRange;
-        public readonly short LowestOctave;
-        public readonly short HighestOctave;
+        public readonly int LowestOctave;
+        public readonly int HighestOctave;
         public readonly char HighestNote;
         public readonly char LowestNote;
 
-        public Instrument(string name, short[] octalRange, char[] noteRange)
+        public Instrument(string name, int[] octalRange, char[] noteRange)
         {
             _name = name;
             _octalRange = octalRange;
