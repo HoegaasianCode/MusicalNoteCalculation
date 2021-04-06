@@ -1,4 +1,6 @@
-﻿namespace MusicalNoteRange
+using System;
+
+namespace MusicalNoteRange
 {
     public class NoteValidation
     {
@@ -7,8 +9,8 @@
         private readonly string _instrumentName;
         private readonly string _noteAndOctave;
         private readonly char Note;
-        private readonly short Octave;
-        private bool IsValid;
+        private int Octave;
+        public bool IsValid;
         
         public NoteValidation(string instrumentName, string noteAndOctave, params Instrument[] instruments)
         {
@@ -16,8 +18,12 @@
             _noteAndOctave = noteAndOctave;
             _instruments = instruments;
             Note = _noteAndOctave[0];
-            Octave = (short)_noteAndOctave[1];
             IsValid = true;
+        }
+
+        public void SetOctaveToInt()
+        {
+            Octave = _noteAndOctave[1] - '0';
         }
 
         public void LookUpInstrument()
@@ -28,21 +34,30 @@
                 if (instrument._name == _instrumentName)
                 {
                     Instrument = instrument;
+                    break;
                 }
             }
         }
 
-        public void IsValidOctave() // "A3", "C4" -> D4-C7 
+        public void IsValidOctalRange()
         {
             if (Octave < Instrument.LowestOctave || Octave > Instrument.HighestOctave)
+            {
+               IsValid = false;
+            }
+        }
+
+        public void IsValidLowerNote()
+        {
+            if (Octave == Instrument.LowestOctave && Note < Instrument.LowestNote)
             {
                 IsValid = false;
             }
         }
 
-        public void IsValidNote() // E3-E6
+        public void IsValidHigherNote()
         {
-            if (Note < Instrument.LowestNote || Note > Instrument.HighestNote)
+            if (Octave == Instrument.HighestOctave && Note > Instrument.HighestNote)
             {
                 IsValid = false;
             }
